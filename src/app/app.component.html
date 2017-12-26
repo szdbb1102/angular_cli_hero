@@ -3,6 +3,19 @@
   <h1>
     {{ title }}!
   </h1>
+  <nav>
+    <a routerLink="/heroes">Heroes</a>
+  </nav>
 </div>
-<app-heroes></app-heroes>
+<router-outlet></router-outlet>
 <app-messages></app-messages>
+
+<!-- 加入路由：
+1. ng generate module app-routing --flat --module=app
+参数意义：
+--flat puts the file in src/app instead of its own folder.
+--module=app tells the CLI to register it in the imports array of the AppModule.
+2. app-routing.module引入路由所需的模块
+在@NgModule exports: [ RouterModule ]
+3. app-routing.module 增加route,生效：在@NgModule imports: [ RouterModule.forRoot(routes) ],
+4. AppComponent template 中引入需要的标签，<router-outlet></router-outlet>为route需要展示的内容 -->
