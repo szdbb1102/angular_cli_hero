@@ -5,6 +5,7 @@ import { MessageService } from './message.service';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -17,7 +18,11 @@ export class HeroService {
   ) { }
 
   getHeroes (): Observable<Hero[]> {
-    return this.http.get<Hero[]>(this.heroesUrl);
+    return this.http.get<Hero[]>(this.heroesUrl)
+      .pipe(
+        tap(heroes => this.log(`fetched heroes`)),
+        catchError(this.handleError('getHeroes', []))
+      );
   }
   getHero(id: number): Observable<Hero> {
     // Todo: send the message _after_ fetching the hero
@@ -26,6 +31,13 @@ export class HeroService {
   }
   private log(message: string) {
     this.messageService.add('HeroService: ' + message);
+  }
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      this.log(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 
 }
