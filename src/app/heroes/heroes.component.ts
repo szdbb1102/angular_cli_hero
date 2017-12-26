@@ -14,28 +14,17 @@ import { HeroService } from '../hero.service';
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.css']
   })
-  export class HeroesComponent implements OnInit {
-
+export class HeroesComponent implements OnInit {
   heroes: Hero[];
-
-  selectedHero: Hero;
-
 
   constructor(private heroService: HeroService) { }
 
   ngOnInit() {
     this.getHeroes();
   }
+
   getHeroes(): void {
     this.heroService.getHeroes()
-        .subscribe(heroes => this.heroes = heroes);
-  }
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
+    .subscribe(heroes => this.heroes = heroes);
   }
 }
-
-// 使用service
-// 1. import
-// 2. 放到constructor
-// 3. 引用形式this.heroService.getHeroes();
